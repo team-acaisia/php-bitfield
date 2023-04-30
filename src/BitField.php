@@ -76,6 +76,7 @@ class BitField
                     $rangeNext = (int) $match; // Set the next event to count to that number
                     break;
                 case ',':
+                default:
                     if ($rangeNext !== false) {
                         // Add from $rangeNext to this one
                         if ((int) $match < $rangeNext) {
@@ -87,10 +88,13 @@ class BitField
                         $rangeNext = false;
                         break;
                     }
-                    // No previous range, just add a single number
-                    $result[] = (int) $match;
-                    break;
-                default:
+
+                    if ($lastCharacter == ',') {
+                        // No previous range, just add a single number
+                        $result[] = (int) $match;
+                        break;
+                    }
+
                     if (is_numeric($lastCharacter)) {
                         // Assume we have a full number, append it, and we should be done
                         $result[] = (int) $match;
