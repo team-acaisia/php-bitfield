@@ -1,0 +1,29 @@
+{
+  "name": "team-acaisia/php-bitfield",
+  "description": "A PHP class to encode and decode RLE",
+  "homepage": "https://github.com/team-acaisia/php-bitfield",
+  "license": "MIT",
+  "require": {
+    "php": "^8.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^10.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Acaisia\\Bitfield\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Acaisia\\Bitfield\\Tests\\": "tests"
+    }
+  },
+  "authors": [
+    {
+      "name": "Rob Quist",
+      "email": "support@acaisia.com",
+      "homepage": "https://acaisia.com/"
+    }
+  ]
+}
