@@ -11,12 +11,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Acaisia\\Bitfield\\": "src"
+      "Acaisia\\BitField\\": "src"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Acaisia\\Bitfield\\Tests\\": "tests"
+      "Acaisia\\BitField\\Tests\\": "tests"
     }
   },
   "authors": [

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Acaisia\Bitfield\Tests;
+namespace Acaisia\BitField\Tests;
 
 use PHPUnit\Framework\TestCase;
 
