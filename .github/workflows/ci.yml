@@ -4,7 +4,7 @@ on: push
 jobs:
   test:
     runs-on: ubuntu-latest
-    container: sineverba/php8xc:1.11.0
+    container: sineverba/php74xc:1.8.0
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
