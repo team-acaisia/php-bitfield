@@ -13,10 +13,11 @@ class BitFieldTest extends AbstractTestCase
     /**
      * @dataProvider provideValidArrays
      */
-    public function testValidArrays(array $given, array $expected) : void
+    public function testValidRleArrays(array $given, array $expected) : void
     {
-        $bitField = BitField::decodeFromArray($given);
-        $this->assertEquals($expected, $bitField);
+        $bitField = BitField::decodeFromRleArray($given);
+        $this->assertSameSize($expected, $bitField->getFlatArray());
+        $this->assertEquals($expected, $bitField->getFlatArray());
     }
 
     public static function provideValidArrays() : array
@@ -34,7 +35,10 @@ class BitFieldTest extends AbstractTestCase
     public function testValidHumanReadableStrings(string $given, array $expected) : void
     {
         $bitField = BitField::decodeFromHumanReadableString($given);
-        $this->assertEquals($expected, $bitField);
+        $this->assertEquals($expected, $bitField->getFlatArray());
+
+        // test roundtrip
+        $this->assertEquals($bitField->toHumanReadableString(), $given);
     }
 
     public static function provideValidHumanReadableStrings() : array
@@ -50,7 +54,7 @@ class BitFieldTest extends AbstractTestCase
     public function testSame(): void
     {
         $this->assertEquals(
-            BitField::decodeFromArray([70811, 1, 7, 2, 11, 1, 61, 1, 13, 2, 10, 1, 17, 1, 2, 1]),
+            BitField::decodeFromRleArray([70811, 1, 7, 2, 11, 1, 61, 1, 13, 2, 10, 1, 17, 1, 2, 1]),
             BitField::decodeFromHumanReadableString('70811,70819-70820,70832,70894,70908-70909,70920,70938,70941'),
         );
     }

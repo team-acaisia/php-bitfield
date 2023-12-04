@@ -10,19 +10,37 @@ use Acaisia\BitField\Exception\InvalidCharacterException;
 /**
  * A class to decode and encode byte streams or arrays
  */
-class BitField
+class BitField implements \Countable
 {
+    private array $values;
+
+    private function __construct(array $values)
+    {
+        $this->values = $values;
+    }
+
+    public function count(): int
+    {
+        return count($this->values);
+    }
+
+    public function getFlatArray(): array
+    {
+        return $this->values;
+    }
+
     /**
      * Assumes an array in RLE encoding, such as:
      * [10,2,5,3] becomes [10,11,12,17,18,19,20]
      */
-    public static function decodeFromArray(array $array): array
+    public static function decodeFromRleArray(array $array): BitField
     {
-        if (count($array) == 0) {
-            return [];
+        $count = count($array);
+        if ($count == 0) {
+            return new self([]);
         }
-        if (count($array) == 1) {
-            throw new InvalidBitFieldException('Element count of 1 is not possible');
+        if ($count % 2 != 0) {
+            throw new InvalidBitFieldException('Element count of ' . $count . ' is not possible');
         }
 
         $arr = [];
@@ -42,20 +60,20 @@ class BitField
                 $from++;
             }
         }
-        return $arr;
+        return new self($arr);
     }
 
     /**
      * Assumes a string in human readable encoding, such as:
      * "10-14,18-20" becomes [10,11,12,13,14,18,19,20]
      */
-    public static function decodeFromHumanReadableString(string $string): array
+    public static function decodeFromHumanReadableString(string $string): BitField
     {
-        if (is_numeric($string) && (int) $string == $string) { // Keep out floats
-            return [(int) $string];
-        }
         if (strlen($string) == 0) {
-            return [];
+            return new self([]);
+        }
+        if (is_numeric($string) && (int) $string == $string) { // Keep out floats
+            return new self([(int) $string]);
         }
         if (!preg_match('/^[0-9]+([0-9]+[,-]?)+[0-9]+$/', $string)) {
             throw new InvalidCharacterException('Unexpected character in human readable string');
@@ -108,6 +126,26 @@ class BitField
             throw new InvalidBitFieldException('Unexpected end of string');
         }
 
-        return $result;
+        return new self($result);
+    }
+
+    /**
+     * Assumes a regular sparse-filled array (not RLE encoded)
+     */
+    public static function fromArray(array $values): self
+    {
+
+    }
+
+    public function toHumanReadableString(): string
+    {
+        $previous = null;
+        foreach ($this->values as $value) {
+            if ($previous == null) {
+                $previous = $value;
+            }
+
+        }
+        return 'no';
     }
 }
